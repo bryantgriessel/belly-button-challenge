@@ -3,6 +3,8 @@ const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/
 d3.json(url).then(function(data) {
     console.log(data);
   })
+
+
 function init(){
   d3.json(url).then(function (data) {
     let dropdownMenu = d3.select("#selDataset");
@@ -11,6 +13,8 @@ function init(){
     }
   })
 }
+//When the HTML dropdown element is changed, the index.html file calls the Optionchanged function
+
 function optionChanged(sample) {
   barchart(sample)
   Bubblechart(sample)  
@@ -18,8 +22,9 @@ function optionChanged(sample) {
 }
 
 
-//d3.selectAll("#selDataset").on("change", updatePlotly);
-function barchart(sample){
+//Bubblechart Function takes in sample as an id
+//This function filters by the sample id and finds the top 10 otu_id's, sample values, and otu labels by using slice
+//These values are used to plot a bubble chart.function barchart(sample){
   d3.json(url).then(function(data) {
     let datafilter=data.samples.filter(filter=> filter.id==sample)
 
@@ -51,54 +56,16 @@ function barchart(sample){
       Plotly.newPlot("bar", [trace1], layout);
     })
 
-  }
-function Bubblechart(sample){
-  d3.json(url).then(function(data) {
-    let datafilter=data.samples.filter(filter=> filter.id==sample)
-
-    let DataX = datafilter[0].otu_ids.reverse();
-    console.log(DataX)
-    let DataY = datafilter[0].sample_values.reverse();
-    let dataid=datafilter[0].otu_ids
-
-    let slicedids = dataid.slice(0, 10);
-    slicedids.reverse();
-    console.log(slicedids)
-
-    let slicedlabels = datafilter[0].otu_labels.slice(0, 10);
-    slicedlabels.reverse();
-  var trace1 = {
-
-    x: DataX,
-    y: DataY,
-    text: datafilter[0].otu_labels,
-    mode: 'markers',
-    marker: {
-
-      color: datafilter[0].otu_ids,
-      size: datafilter[0].sample_values,
-      colorscale:'Portland'
-    }
-  };
   
-  var data = [trace1];
-  var layout = {
-    title: 'OTU ID',
-    showlegend: false,
-    height: 600,
-    width: 1200
-  };
-  Plotly.newPlot('bubble', data, layout);
-})
-  
-}
+//Bubblechart Function takes in sample as an id
+//This function filters by the sample id and finds the otu_id's, sample values, and otu labels
+//These values are used to plot a bubble chart.
 function Bubblechart(sample){
   d3.json(url).then(function(data) {
     let datafilter=data.samples.filter(filter=> filter.id==sample)
 
     let DataX = datafilter[0].otu_ids;
     let DataY = datafilter[0].sample_values;
-    let dataid=datafilter[0].otu_ids
 
 
     let datalabels = datafilter[0].otu_labels;
@@ -111,7 +78,7 @@ function Bubblechart(sample){
     mode: 'markers',
     marker: {
 
-      color: dataid,
+      color: DataX,
       size: DataY,
       colorscale:'Picnic'
     }
@@ -128,6 +95,8 @@ function Bubblechart(sample){
 })
   
 }
+//This function populatess the Domgraphic info box with information.
+
 function demoinfo(sample){
   d3.json(url).then(function(data) {
   let datafilter=data.metadata.filter(filter=> filter.id==sample)
@@ -146,15 +115,5 @@ function demoinfo(sample){
   )})
 
 }
-
-//function updatePlotly() {
-//    let dataset = dropdownMenu.property("value");
-//    if(dataset=='dataset1'){
-//        let datap =[trace1]
-        
-//    }
-
-
-
 
 init();
