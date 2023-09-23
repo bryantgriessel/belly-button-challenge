@@ -11,31 +11,36 @@ function init(){
     for(let ids in data.names){
         dropdownMenu.append("option").text(data.names[ids]).property("value",data.names[ids]);   
     }
+    barchart(940)
+    Bubblechart(940)  
+    demoinfo(940)
   })
 }
 //When the HTML dropdown element is changed, the index.html file calls the Optionchanged function
 
 function optionChanged(sample) {
+  console.log(sample)
   barchart(sample)
   Bubblechart(sample)  
   demoinfo(sample)
 }
 
 
-//Bubblechart Function takes in sample as an id
+//barchart Function takes in sample as an id
 //This function filters by the sample id and finds the top 10 otu_id's, sample values, and otu labels by using slice
-//These values are used to plot a bubble chart.function barchart(sample){
+//These values are used to plot a bar chart.
+function barchart(sample){
   d3.json(url).then(function(data) {
     let datafilter=data.samples.filter(filter=> filter.id==sample)
 
     let slicedData = datafilter[0].sample_values.slice(0, 10);
     slicedData.reverse();
-    console.log(slicedData)
+    //console.log(slicedData)
 
     let dataid=datafilter[0].otu_ids
     let slicedids = dataid.slice(0, 10);
     slicedids.reverse();
-    console.log(slicedids)
+    //console.log(slicedids)
 
     let slicedlabels = datafilter[0].otu_labels.slice(0, 10);
     slicedlabels.reverse();
@@ -51,11 +56,11 @@ function optionChanged(sample) {
         title: "Top 10 OTUs ",
 
       };
-      console.log(trace1)
+     // console.log(trace1)
 
       Plotly.newPlot("bar", [trace1], layout);
     })
-
+  }
   
 //Bubblechart Function takes in sample as an id
 //This function filters by the sample id and finds the otu_id's, sample values, and otu labels
@@ -101,7 +106,7 @@ function demoinfo(sample){
   d3.json(url).then(function(data) {
   let datafilter=data.metadata.filter(filter=> filter.id==sample)
   let demoselect = d3.select("#sample-metadata");
-  console.log(datafilter[0].ethnicity)
+ // console.log(datafilter[0].ethnicity)
   demoselect.html(
     `id: ${datafilter[0].id}<br>
      Ethnicity: ${datafilter[0].ethnicity}<br>
