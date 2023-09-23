@@ -1,3 +1,5 @@
+# Live Link
+https://demzilla.github.io/belly-button-challenge/
 # Background:
 In this challenge I used javascript and HTML to showcase biodiversity of bacteria in patients belly buttons. 
   - The app.js file contains the javascript code written for this activity.
