@@ -8,5 +8,5 @@ The resources directory contains the json file used for this activity
 the static folder contains the app.js file used in the activity. 
    
     
-Example:
+# Example:
 ![image](https://github.com/demzilla/belly-button-challenge/assets/18203409/50dd04cf-b400-43b6-a78d-72dce48661b7)
